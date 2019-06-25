@@ -5,16 +5,25 @@
  */
 package file_creator;
 
+import javax.swing.JFileChooser;
+
 /**
  *
  * @author Julien
  */
-public class File_creator {
+public class MainProject {
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        JFileChooser jFileChooser = new JFileChooser(".");
+        int retour = jFileChooser.showOpenDialog(null);
+        String path = ";";
+        if(retour == JFileChooser.APPROVE_OPTION){
+            path = jFileChooser.getSelectedFile().getAbsolutePath();
+        }
+        FileCreator fileCreator = new FileCreator(path);
         
     }
     
