@@ -5,6 +5,8 @@
  */
 package file_creator;
 
+import java.io.File;
+import java.io.IOException;
 import javax.swing.JFileChooser;
 
 /**
@@ -16,15 +18,21 @@ public class MainProject {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         JFileChooser jFileChooser = new JFileChooser(".");
         int retour = jFileChooser.showOpenDialog(null);
-        String path = ";";
-        if(retour == JFileChooser.APPROVE_OPTION){
+        String path = "";
+        if (retour == JFileChooser.APPROVE_OPTION) {
             path = jFileChooser.getSelectedFile().getAbsolutePath();
+            Data data = new Data(path);
+            FileCreator fileCreator = new FileCreator(data);
+            fileCreator.initializeFolder();
+            fileCreator.initializeFile();
+            fileCreator.insertTextFileJava();
         }
-        FileCreator fileCreator = new FileCreator(path);
         
+        
+
     }
-    
+
 }

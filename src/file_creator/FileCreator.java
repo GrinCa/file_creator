@@ -5,7 +5,11 @@
  */
 package file_creator;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,22 +20,23 @@ import java.util.logging.Logger;
  */
 public class FileCreator {
 
-    public FileCreator(String path) {
-        this.path = path;
-        System.out.println(path);
+    public FileCreator(Data data) {
+        this.path = data.getPath();
+        this.projectTitle = data.getProjectTitle();
+        this.packageTitle = data.getPackageTitle();
     }
 
     public void initializeFolder() {
         this.createFolder(path);
-        this.createFolder(path + "\\src");
-        this.createFolder(path + "\\nbproject");
-        this.createFolder(path + "\\build");
+        this.createFolder(path + separator + "src");
+        this.createFolder(path + separator + "nbproject");
+        this.createFolder(path + separator + "build");
 
-        this.createFolder(path + "\\src\\" + nomPackage);
+        this.createFolder(path + separator + "src" + separator + packageTitle);
     }
 
     public void initializeFile() {
-        this.createFile(path + "\\src\\" + nomPackage + "\\" + nomProjet + ".java");
+        this.createFile(path + separator + "src" + separator + packageTitle + separator + projectTitle + ".java");
     }
 
     private void createFolder(String file) {
@@ -46,16 +51,43 @@ public class FileCreator {
         }
     }
 
-    private void findTitle() {
-        for (int i = 0; i < path.length(); i++) {
-            if(path.substring(i) == "\\"){
-                
+    
+
+    public void insertTextFileJava() {
+        BufferedReader br = null;
+        BufferedWriter bw = null;
+        try {
+            bw = new BufferedWriter(new FileWriter(path + separator + "src" 
+                    + separator + packageTitle + separator + projectTitle + ".java"));
+            br = new BufferedReader(new FileReader("C:\\Users\\Julien\\texte base Java.txt"));
+            while (br.ready()) {
+                bw.write(br.readLine()+"\n");
             }
+            br.close();
+            bw.close();
+        } catch (IOException ex) {
+            Logger.getLogger(FileCreator.class.getName()).log(Level.SEVERE, null, ex);
         }
+
     }
 
+    public String getPath() {
+        return path;
+    }
+
+    public String getProjectTitle() {
+        return projectTitle;
+    }
+
+    public String getPackageTitle() {
+        return packageTitle;
+    }
+    
+    
+
     private String path = "";
-    private String nomProjet = "project";
-    private String nomPackage = "main." + nomProjet;
+    private String projectTitle = "";
+    private String packageTitle = "";
+    private String separator = "\\";
 
 }
